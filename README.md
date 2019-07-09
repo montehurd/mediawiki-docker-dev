@@ -1,5 +1,10 @@
 This is a fork of [MediaWiki-Docker-Dev](https://github.com/addshore/mediawiki-docker-dev) with a script which simplifies setup of a "Dockerized" Mediawiki Structured Data on Commons development environment. ( manual setup instructions are [pretty complicated](https://gist.github.com/montehurd/d227af99fdb753d739d40b98644f16c2) )
 
+## Prerequisite
+Install docker:
+
+https://docs.docker.com/docker-hub/
+
 ## Installation Instructions
 
 To install, clone this repo, then from the console, in the directory of the downloaded repo, run the setup script using a command like the following (first changing 'mm' to the desired install directory - this is the folder where Mediawiki and various extensions will be cloned):
