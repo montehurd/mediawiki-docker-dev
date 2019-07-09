@@ -1,272 +1,98 @@
-## Instructions
+This is a fork of [MediaWiki-Docker-Dev](https://github.com/addshore/mediawiki-docker-dev) with a script which simplifies setup of a "Dockerized" Mediawiki Structured Data on Commons development environment. ( manual setup instructions are [pretty complicated](https://gist.github.com/montehurd/d227af99fdb753d739d40b98644f16c2) )
 
-By default the below steps will install MediaWiki at `~/dev/mediawiki`
-and start a server for <http://default.web.mw.localhost:8080>.
+## Installation Instructions
 
-Many aspect of the container, including the port and MediaWiki path, can be customised
-by creating a `local.env` in this directory, in which to override one or more variables
-from `default.env`.
-
-There is a setup script that you can run with `INSTALL_DIR=~/src ./setup.sh` if you already have Docker
-installed and want to skip the manual steps. Note that `INSTALL_DIR` is the parent directory where MediaWiki
-core will be downloaded, so in the example above you would end up with a codebase at `~/src/mediawiki`.
-
-### Install
-
-#### 1) Install Docker & Docker Compose
-
-https://docs.docker.com/compose/install/
-
-###### Unix notes
-
-- Use the `docker-ce` package, not the `docker` package (read their install instructions)
-- If you want to avoid logging in as root or sudo commands, you will have to add your user to the docker group:
-https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo#477554
-   - This does not mean your containers will not run as root. These are different settings not really used currently by this dev setup.
-
-#### 2) Clone this repository
-
+To install, clone this repo, then from the console, in the directory of the downloaded repo, run the setup script using a command like the following (first changing 'mm' to the desired install directory - this is the folder where Mediawiki and various extensions will be cloned):
 ```
-git clone https://github.com/addshore/mediawiki-docker-dev.git
+INSTALL_DIR=~/mm ./setup.sh
 ```
+Installation will take a few minutes.
 
-#### 3) Clone MediaWiki core & the Vector skin
+## Test the installation
 
-You can start without the skin but you will find that your MediaWiki install doesn't look very nice.
+To see if it worked, in a browser load:
 
-From [Wikimedia Gerrit](https://gerrit.wikimedia.org/r/#/admin/projects/mediawiki/core):
+http://default.web.mw.localhost:8080/mediawiki/index.php?title=Special:Version
 
-```
-git clone https://gerrit.wikimedia.org/r/mediawiki/core /srv/dev/git/gerrit/mediawiki
-git clone https://gerrit.wikimedia.org/r/mediawiki/skins/Vector /srv/dev/git/gerrit/mediawiki/skins/Vector
-```
+If you scroll down you should see `WikibaseMediaInfo` under `Installed extensions`.
 
-(You can clone your code to somewhere other than `/srv/dev/git/gerrit/mediawiki`. For example, `~/src/mediawiki` but you'll need to follow step 6 carefully.)
-
-#### 4) Run `composer install` for MediaWiki
-
-Either on your host machine or with Docker, inside the `/srv/dev/git/gerrit/mediawiki` directory:
-
-```
-docker run -it --rm --user $(id -u):$(id -g) -v ~/.composer:/tmp -v $(pwd):/app docker.io/composer install
-```
-
-#### 5) Create a basic LocalSettings.php
-
-A `.docker/LocalSettings.php` file exists within the containers running Mediawiki. Your `LocalSettings.php` file must load it.
-
-Make a `LocalSettings.php` in the root of the MediaWiki repo containing the following:
-
-```
-<?php
-require_once __DIR__ . '/.docker/LocalSettings.php';
-```
-When you come to change any MediaWiki settings this is the file you will want to be altering.
-
-For example after install you will probably find you want to load the default skin:
-```
-wfLoadSkin( 'Vector' );
-```
-
-### 6) Configure the environment
-
-Note: If you cloned mediawiki into a directory other than `/srv/dev/git/gerrit/mediawiki` you will need to do this step, otherwise the defaults can likely be used.
-
-Copy the content of `default.env` from the `mediawiki-docker-dev` dir into a new file called `local.env`.
-
-Alter any settings that you want to change, for example the install location of MediaWiki, a directory to a local composer cache, or webserver or php version.
-
-#### 7) Create the environment
-
-**Create and start the Docker containers:**
-
-```
-./create
-```
-
-**Update your hosts file:**
-
-Add the following to your `/etc/hosts` file:
-
-```
+If the link in the step above doesn't work, you may need to manually edit `/etc/hosts` (i.e. `sudo atom /etc/hosts`) adding the following lines:
+<pre>
 127.0.0.1 default.web.mw.localhost # mediawiki-docker-dev
 127.0.0.1 proxy.mw.localhost # mediawiki-docker-dev
 127.0.0.1 phpmyadmin.mw.localhost # mediawiki-docker-dev
 127.0.0.1 graphite.mw.localhost # mediawiki-docker-dev
-```
+</pre>
 
-You can also use the `./hosts-sync` script to try and update it automatically if possible. You may
-need to use `sudo ./hosts-sync` instead if the file is not writable by the shell user.
+## Add some structured data
 
-## Commands
+Steps to add some structured data and associate it with an image.
 
-The below commands are shell scripts in the mediawiki-docker-dev directory.
+In browser load `Special:SpecialPages`:
 
-For example, the Up command can be invoked as `./create`, and the Bash command as `./bash`, etc.
+http://default.web.mw.localhost:8080/mediawiki/index.php?title=Special:SpecialPages
 
-To easily invoke these while working in another directory (e.g. mediawiki/core, or an extension) you can add a small bash alias to your `bashrc` file. For example:
+There should be `Wikibase` section near the bottom now.
 
-```bash
-alias mw-docker-dev='_(){ (cd /$GITPATH/github/addshore/mediawiki-docker-dev; ./$@) ;}; _'
-```
+Click `Create a new Item` link:
 
-The below documentation assumes this alias in examples, but each of these also works directly. Instead of `mw-docker-dev start` you would run `./start` from your Terminal tab for mw-docker-dev.
+http://default.web.mw.localhost:8080/mediawiki/index.php?title=Special:NewItem
 
-### Create
+Create a `San Francisco` item (set `Label` to `San Francisco`). Should see `Q1` to right of `San Francisco` after you save it.
 
-Create and start containers.
+In browser load `Special:SpecialPages` again:
 
-This includes installing a default wiki at http://default.web.mw.localhost:8080 with an "Admin" user that has password "dockerpass".
+http://default.web.mw.localhost:8080/mediawiki/index.php?title=Special:SpecialPages
 
-The spec of the system that this command will create is based on environment variables. The default spec resides in `default.env`. You can customize these variable from a file called `local.env`, which you may create in this directory.
+Click `Create a new Property` link:
 
-```
-mw-docker-dev create
-```
+http://default.web.mw.localhost:8080/mediawiki/index.php?title=Special:NewProperty
 
-### Suspend
+set `Label` to `depicts`
 
-Shut down the containers. Databases and other volumes persist. See also: [Resume](#Resume), [Destroy](#Destroy).
+set `Description` to something like `what is shown in image`
 
-```
-mw-docker-dev suspend
-```
+set `Data type` to `Item`
 
-### Resume
+Should see `P1` to right of `depicts` after you save it - this is the `P1` referred to in `mediawiki/LocalSettings.php` where it says:
+<pre>
+$wgMediaInfoProperties = [
+	'depicts' => 'P1',
+];
+</pre>
 
-Start (or restart) the containers. See also: [Suspend](#Suspend).
+### Associate data from previous step with image
 
-```
-mw-docker-dev resume
-```
+Load main page:
 
-### Destroy
+http://default.web.mw.localhost:8080/mediawiki/index.php?title=Main_Page
 
-Shut down the containers, and destroy them. Also deletes databases and volumes.
+Log in:
 
-```
-mw-docker-dev destroy
-```
+http://default.web.mw.localhost:8080/mediawiki/index.php?title=Special:UserLogin&returnto=Main+Page
+<pre>
+Admin
+dockerpass
+</pre>
 
-### Bash
+Upload any image file:
 
-Run commands on the webserver.
+http://default.web.mw.localhost:8080/mediawiki/index.php?title=Special:Upload
 
-If the containers are running you can use `./bash` to open an interactive shell on the webserver.
+After upload there should be a `Structured data` tab to right of `File Information` below the image.
 
-This can be used to run PHPUnit tests, maintenance scripts, etc.
+Tap the `Structured data` tab, then tap `Edit`, then begin typing `San Francisco` and you should see the `Q1` item we created earlier.
 
-```
-mw-docker-dev bash
-```
+## Example configuration of Xdebug (with PHPStorm)
 
-### Add site
+To configuring `PHPStorm` to work with `Xdebug`, you'll need to add a `server` under `Preferences > Languages & Frameworks > PHP > Servers`. Choose settings similar to those in the image below:
 
-You can add a new site by subdomain name using the ./addsite command
+![Screen Shot 2019-07-02 at 4 07 53 PM](https://user-images.githubusercontent.com/3143487/60554129-cc648000-9d25-11e9-9d53-5c48076bc299.png)
 
-```
-mw-docker-dev addsite enwiki
-```
+Then create a `Run / Debug configuration` and choose the `server` created in the first image:
 
-### Hosts file sync
+![Screen Shot 2019-07-02 at 4 05 54 PM](https://user-images.githubusercontent.com/3143487/60554128-cc648000-9d25-11e9-98ad-eec1ba97b13b.png)
 
-Check whether the hosts file contains all needed entries, and if not,
-shows which entries need to be added, and also tries to add them automatically
-if possible.
+Next tap this icon:
 
-```
-mw-docker-dev hosts-sync
-```
-
-### Update a wiki
-
-Run `git pull` in your the relevant Git repositories for MediaWiki core
-and extensions.
-
-If you need to apply schema changes after updating MediaWiki, or after
-installing additional extensions, you can follow the regular MediaWiki
-instructions. Just make sure you're on the web server when doing so.
-
-For example:
-
-```
-$ mw-docker-dev bash
-
-root@web:/var/www/mediawiki# php maintenance/update.php
-```
-
-### PHPUnit
-
-Be sure to set `default` (the wiki db), this is a multi-wiki environment.
-
-For example:
-
-```
-mw-docker-dev phpunit-file default extensions/FileImporter/tests/phpunit
-```
-
-See also <https://www.mediawiki.org/wiki/Manual:PHP_unit_testing>
-
-### QUnit
-
-To run the QUnit tests from the browser, use [Special:JavaScriptTest](http://default.web.mw.localhost:8080/index.php?title=Special:JavaScriptTest).
-
-See also <https://www.mediawiki.org/wiki/Manual:JavaScript_unit_testing>.
-
-To run QUnit from the command-line, make sure you have [Node.js v4 or later](https://nodejs.org/) installed on the host, and set the following environment variables:
-
-```
-export MW_SERVER='http://default.web.mw.localhost:8080'
-export MW_SCRIPT_PATH='/mediawiki'
-```
-
-```
-$ cd ~/dev/mediawiki
-$ npm install
-$ npm run qunit
-```
-
-## Access
-
- - [Default MediaWiki Site](http://default.web.mw.localhost:8080)
- - [Graphite](http://graphite.mw.localhost:8080)
- - [PhpMyAdmin](http://phpmyadmin.mw.localhost:8080)
-
-## Debugging
-
-While using PHP you can use remote xdebug debugging.
-
-To do so you need to set `IDELOCALHOST` in you local.env file to the IP of your local machine (where you run your IDE) as it appears to docker. Note with Docker for Mac, you can use `IDELOCALHOST=host.docker.internal`.
-
-xdebug connections will then be sent to this IP address on port 9000.
-
-## Overriding / Extending
-
-You can add additional services, or modify current services, by creating a `docker-compose.override.yml` file ([docs](https://docs.docker.com/compose/extends/)). For example, to add a Redis service, add these contents to `docker-compose.override.yml`:
-
-``` yaml
-version: '2'
-services:
-  redis:
-    image: redis
-```
-
-To modify a current service, for example to [try a different volume caching for macOS](https://docs.docker.com/docker-for-mac/osxfs-caching/) like `:delegated` instead of `:cached` ([file reference](https://docs.docker.com/compose/compose-file/#volumes)):
-
-```yaml
-version: '2'
-services:
-  web:
-    volumes:
-      - "${DOCKER_MW_PATH}:/var/www/mediawiki:delegated"
-```
-
-Note that the other volumes for the `web` service will be merged, so you don't need to specify every volume mapping from the main `docker-compose.yml` file in your `docker-compose.override.yml` file.
-
-
-## TODO
-
- - FIX HHVM strict mode
-   - Strict Warning: It is not safe to rely on the system's timezone settings. Please use the date.timezone setting, the TZ environment variable or the date_default_timezone_set() function.
- - Statsv endpoint
- - Setup awesome hosts file additions & removals
+![Screen Shot 2019-07-02 at 5 10 00 PM](https://user-images.githubusercontent.com/3143487/60554417-08e4ab80-9d27-11e9-9fe0-302e5c52b2f4.png)

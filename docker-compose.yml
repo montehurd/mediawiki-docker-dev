@@ -65,8 +65,12 @@ services:
      - PHP_IDE_CONFIG=serverName=docker
      - PHP_UPLOAD_MAX_FILESIZE=1024M
      - PHP_POST_MAX_SIZE=1024M
+     - MW_ELASTIC_HOST=elasticsearch.svc
+     - MW_ELASTIC_PORT=9200
+     - PHP_OPCACHE_MAX_ACCELERATED_FILES=0
     depends_on:
      - db-configure
+     - elasticsearch
     volumes:
      - "${DOCKER_MW_PATH}:/var/www/mediawiki:cached"
      - ./config/mediawiki:/var/www/mediawiki/.docker:ro
@@ -94,8 +98,25 @@ services:
   redis:
     image: redis
 
+  elasticsearch:
+    image: elasticsearch:5.6
+    volumes: # Persist ES data in separate "esdata" volume
+      - elasticdata:/usr/share/elasticsearch/data
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "9300:9300"
+      - "9200:9200"
+    networks:
+      default:
+        aliases:
+          - elasticsearch.svc
+
 volumes:
   sql-data-master:
   sql-data-slave:
   graphite-data:
   mw-images:
+  elasticdata:
