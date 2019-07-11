@@ -96,7 +96,7 @@ To configuring `PHPStorm` to work with `Xdebug`, you'll need to add a `server` u
 
 Then create a `Run / Debug configuration` and choose the `server` created in the first image:
 
-![Screen Shot 2019-07-02 at 4 05 54 PM](https://user-images.githubusercontent.com/3143487/60554128-cc648000-9d25-11e9-98ad-eec1ba97b13b.png)
+![Screen Shot 2019-07-02 at 4 05 54 PM](https://user-images.githubusercontent.com/3143487/61083677-df5d0b80-a41b-11e9-998f-56ab0a2574bf.png)
 
 Next tap this icon:
 
