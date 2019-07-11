@@ -94,7 +94,7 @@ To configuring `PHPStorm` to work with `Xdebug`, you'll need to add a `server` u
 
 ![Screen Shot 2019-07-02 at 4 07 53 PM](https://user-images.githubusercontent.com/3143487/60554129-cc648000-9d25-11e9-9d53-5c48076bc299.png)
 
-Then create a `Run / Debug configuration` and choose the `server` created in the first image:
+Then create a `Run / Debug configuration`. Tap `Run > Edit Configurations...`, then tap `+`, then select `PHP Remote Debug` and choose the `server` created in the first image and enter an IDE key of `PHPSTORM`:
 
 ![Screen Shot 2019-07-02 at 4 05 54 PM](https://user-images.githubusercontent.com/3143487/61083677-df5d0b80-a41b-11e9-998f-56ab0a2574bf.png)
 
