@@ -9,16 +9,15 @@ dir=$PWD
 
 mkdir -p "$INSTALL_DIR"
 cd "$INSTALL_DIR"
-git clone https://github.com/wikimedia/mediawiki.git mediawiki
-git clone https://github.com/wikimedia/mediawiki-skins-Vector.git mediawiki/skins/Vector
-git clone https://github.com/wikimedia/mediawiki-extensions-Elastica.git mediawiki/extensions/Elastica
-git clone https://github.com/wikimedia/mediawiki-extensions-CirrusSearch.git mediawiki/extensions/CirrusSearch
-git clone https://github.com/wikimedia/mediawiki-extensions-UniversalLanguageSelector.git mediawiki/extensions/UniversalLanguageSelector
-git clone https://github.com/wikimedia/mediawiki-extensions-UploadWizard.git mediawiki/extensions/UploadWizard
-git clone https://github.com/wikimedia/mediawiki-extensions-Wikibase.git mediawiki/extensions/Wikibase
-git clone https://github.com/wikimedia/mediawiki-extensions-WikibaseCirrusSearch.git mediawiki/extensions/WikibaseCirrusSearch
-git clone https://github.com/wikimedia/mediawiki-extensions-WikibaseMediaInfo.git mediawiki/extensions/WikibaseMediaInfo
-
+git clone https://github.com/wikimedia/mediawiki.git mediawiki --depth=1
+git clone https://github.com/wikimedia/mediawiki-skins-Vector.git mediawiki/skins/Vector --depth=1
+git clone https://github.com/wikimedia/mediawiki-extensions-Elastica.git mediawiki/extensions/Elastica --depth=1
+git clone https://github.com/wikimedia/mediawiki-extensions-CirrusSearch.git mediawiki/extensions/CirrusSearch --depth=1
+git clone https://github.com/wikimedia/mediawiki-extensions-UniversalLanguageSelector.git mediawiki/extensions/UniversalLanguageSelector --depth=1
+git clone https://github.com/wikimedia/mediawiki-extensions-UploadWizard.git mediawiki/extensions/UploadWizard --depth=1
+git clone https://github.com/wikimedia/mediawiki-extensions-Wikibase.git mediawiki/extensions/Wikibase --depth=1
+git clone https://github.com/wikimedia/mediawiki-extensions-WikibaseCirrusSearch.git mediawiki/extensions/WikibaseCirrusSearch --depth=1
+git clone https://github.com/wikimedia/mediawiki-extensions-WikibaseMediaInfo.git mediawiki/extensions/WikibaseMediaInfo --depth=1
 
 cd mediawiki
 docker run -it --rm --user $(id -u):$(id -g) -v ~/.composer:/tmp -v $(pwd):/app docker.io/composer install
