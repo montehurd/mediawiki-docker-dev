@@ -5,6 +5,8 @@
 
 set -eu
 
+./destroy || :
+
 dir=$PWD
 
 mkdir -p "$INSTALL_DIR"
