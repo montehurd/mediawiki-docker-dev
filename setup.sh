@@ -84,7 +84,6 @@ EOL
 
 
 ./create
-./hosts-sync
 
 
 cd "$INSTALL_DIR"/mediawiki
