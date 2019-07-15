@@ -3,7 +3,10 @@ This is a fork of [MediaWiki-Docker-Dev](https://github.com/addshore/mediawiki-d
 ## Prerequisite
 Install docker:
 
-https://docs.docker.com/docker-hub/
+On MacOS you can use [homebrew](https://brew.sh) to install Docker using the command `brew install docker`.
+
+Other platform installation packages can be found here:
+https://docs.docker.com/install/
 
 ## Installation Instructions
 
