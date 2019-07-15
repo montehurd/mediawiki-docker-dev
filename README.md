@@ -1,7 +1,7 @@
 This is a fork of [MediaWiki-Docker-Dev](https://github.com/addshore/mediawiki-docker-dev) with a script which simplifies setup of a "Dockerized" Mediawiki Structured Data on Commons development environment. ( manual setup instructions are [pretty complicated](https://gist.github.com/montehurd/d227af99fdb753d739d40b98644f16c2) )
 
 ## Prerequisite
-Install docker:
+Install Docker:
 
 On MacOS you can use [homebrew](https://brew.sh) to install Docker using the command `brew install docker`.
 
@@ -104,3 +104,5 @@ Then create a `Run / Debug configuration`. Tap `Run > Edit Configurations...`, t
 Next tap this icon:
 
 ![Screen Shot 2019-07-02 at 5 10 00 PM](https://user-images.githubusercontent.com/3143487/60554417-08e4ab80-9d27-11e9-9fe0-302e5c52b2f4.png)
+
+Note: on non-MacOS hosts you will probably need to change the `IDELOCALHOST` value in `/mediawiki-docker-dev-sdc/local.env` to your machine's local IP address. After changing it you'll need to restart the Docker bits by running `./destroy` then `./create` in `/mediawiki-docker-dev-sdc`.
