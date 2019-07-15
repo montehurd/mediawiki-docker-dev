@@ -105,4 +105,4 @@ Next tap this icon:
 
 ![Screen Shot 2019-07-02 at 5 10 00 PM](https://user-images.githubusercontent.com/3143487/60554417-08e4ab80-9d27-11e9-9fe0-302e5c52b2f4.png)
 
-Note: on non-MacOS hosts you will probably need to change the `IDELOCALHOST` value in `/mediawiki-docker-dev-sdc/local.env` to your machine's local IP address. After changing it you'll need to restart the Docker bits by running `./destroy` then `./create` in `/mediawiki-docker-dev-sdc`.
+Note: on non-MacOS hosts you will probably need to change the `IDELOCALHOST` value in `/mediawiki-docker-dev-sdc/local.env` to your machine's local IP address. After changing it you'll need to restart the Docker bits by running `./destroy` then `./create` in `/mediawiki-docker-dev-sdc`. This is not ideal as your local IP address can change. If you know a better way to handle this please let me know or open a PR :)
