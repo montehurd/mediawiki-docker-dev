@@ -91,7 +91,9 @@ After upload there should be a `Structured data` tab to right of `File Informati
 
 Tap the `Structured data` tab, then tap `Edit`, then begin typing `San Francisco` and you should see the `Q1` item we created earlier.
 
-## Example configuration of Xdebug (with PHPStorm)
+## Example Xdebug configurations
+
+### PHPStorm
 
 To configuring `PHPStorm` to work with `Xdebug`, you'll need to add a `server` under `Preferences > Languages & Frameworks > PHP > Servers`. Choose settings similar to those in the image below:
 
@@ -106,3 +108,13 @@ Next tap this icon:
 ![Screen Shot 2019-07-02 at 5 10 00 PM](https://user-images.githubusercontent.com/3143487/60554417-08e4ab80-9d27-11e9-9fe0-302e5c52b2f4.png)
 
 Note: on non-MacOS hosts you will probably need to change the `IDELOCALHOST` value in `/mediawiki-docker-dev-sdc/local.env` to your machine's local IP address. After changing it you'll need to restart the Docker bits by running `./destroy` then `./create` in `/mediawiki-docker-dev-sdc`. This is not ideal as your local IP address can change. If you know a better way to handle this please let me know or open a PR :)
+
+### VSCode
+
+Go to the "Debug" menu and choose "Open Configuration". Then choose "PHP" (you need the PHP Debug extension installed first).
+
+<img width="294" alt="Screen Shot 2019-07-30 at 2 22 28 PM" src="https://user-images.githubusercontent.com/3143487/62168336-d40f4880-b314-11e9-98f6-8b813a9f7383.png">
+
+Doing this will create a `launch.json` file in the `.vscode` folder inside your workspace. Most of the contents below are generated automatically, but path mappings need to be added explicitly:
+
+<img width="1117" alt="Screen Shot 2019-07-30 at 2 22 43 PM" src="https://user-images.githubusercontent.com/3143487/62168329-cfe32b00-b314-11e9-9d7f-f62aa45fd063.png">
