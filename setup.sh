@@ -197,6 +197,9 @@ require_once "\$IP/extensions/Wikibase/client/ExampleSettings.php";
 ];
 
 \$wgUseImageMagick = true;
+
+\$wgDebugLogFile = "/var/log/mediawiki/debug-{\$wgDBname}.log";
+
 EOL
 
 
