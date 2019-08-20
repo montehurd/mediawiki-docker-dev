@@ -21,6 +21,7 @@ git clone https://github.com/wikimedia/mediawiki-extensions-Wikibase.git mediawi
 git clone https://github.com/wikimedia/mediawiki-extensions-WikibaseCirrusSearch.git mediawiki/extensions/WikibaseCirrusSearch --depth=1
 git clone https://github.com/wikimedia/mediawiki-extensions-WikibaseMediaInfo.git mediawiki/extensions/WikibaseMediaInfo --depth=1
 git clone https://github.com/wikimedia/mediawiki-extensions-MobileFrontend.git mediawiki/extensions/MobileFrontend --depth=1
+git clone https://github.com/montehurd/WikibaseMachineAssistedDepicts.git mediawiki/extensions/WikibaseMachineAssistedDepicts --depth=1
 
 cd mediawiki
 docker run -it --rm --user $(id -u):$(id -g) -v ~/.composer:/tmp -v $(pwd):/app docker.io/composer install
@@ -185,6 +186,7 @@ wfLoadExtension( 'UniversalLanguageSelector' );
 wfLoadExtension( 'MobileFrontend' );
 wfLoadExtension( 'WikibaseCirrusSearch' );
 wfLoadExtension( 'WikibaseMediaInfo' );
+wfLoadExtension( 'WikibaseMachineAssistedDepicts' );
 
 \$wgCirrusSearchServers = [ "elasticsearch.svc" ];
 \$wgSearchType = 'CirrusSearch';
