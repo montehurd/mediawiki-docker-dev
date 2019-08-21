@@ -121,4 +121,4 @@ Doing this will create a `launch.json` file in the `.vscode` folder inside your 
 
 ## Misc
 
-If the Docker containers stop unexpectedly, you can run `./create` to restart them. Details (here)[https://github.com/addshore/mediawiki-docker-dev#7-create-the-environment] for this and other shortcut commands.
+If the Docker containers stop unexpectedly, you can run `./create` to restart them. Details [here](https://github.com/addshore/mediawiki-docker-dev#7-create-the-environment) for this and other shortcut commands.
