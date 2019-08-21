@@ -118,3 +118,7 @@ Go to the "Debug" menu and choose "Open Configuration". Then choose "PHP" (you n
 Doing this will create a `launch.json` file in the `.vscode` folder inside your workspace. Most of the contents below are generated automatically, but path mappings need to be added explicitly:
 
 <img width="1117" alt="Screen Shot 2019-07-30 at 2 22 43 PM" src="https://user-images.githubusercontent.com/3143487/62168329-cfe32b00-b314-11e9-9d7f-f62aa45fd063.png">
+
+## Misc
+
+If the Docker containers stop unexpectedly, you can run `./create` to restart them. Details (here)[https://github.com/addshore/mediawiki-docker-dev#7-create-the-environment] for this and other shortcut commands.
