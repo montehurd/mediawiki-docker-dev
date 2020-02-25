@@ -132,6 +132,7 @@ First, `cd` to the `mediawiki-docker-dev-sdc` directory, then run a command like
 ### Run Javascript tests
 
 Load the `Special:JavaScriptTest` page:
+
 http://default.web.mw.localhost:8080/mediawiki/index.php?title=Special%3AJavaScriptTest&debug=true
 
 ## Misc
