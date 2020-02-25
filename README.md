@@ -119,15 +119,20 @@ Doing this will create a `launch.json` file in the `.vscode` folder inside your 
 
 <img width="1117" alt="Screen Shot 2019-07-30 at 2 22 43 PM" src="https://user-images.githubusercontent.com/3143487/62168329-cfe32b00-b314-11e9-9d7f-f62aa45fd063.png">
 
-## Running tests
+## Test running examples
 
-### Example running tests in single PHP file
+### Run single PHP file tests
 
 First, `cd` to the `mediawiki-docker-dev-sdc` directory, then run a command like the following, changing `tests/phpunit/unit/includes/content/JsonContentHandlerTest.php` to the path of the php test file you want to execute:
 
 ```
 ./phpunit-file default tests/phpunit/unit/includes/content/JsonContentHandlerTest.php
 ```
+
+### Run Javascript tests
+
+Load the `Special:JavaScriptTest` page:
+http://default.web.mw.localhost:8080/mediawiki/index.php?title=Special%3AJavaScriptTest&debug=true
 
 ## Misc
 
