@@ -121,7 +121,7 @@ Doing this will create a `launch.json` file in the `.vscode` folder inside your 
 
 ## Running tests
 
-### Example to run tests in one PHP file
+### Example running tests in single PHP file
 
 First, `cd` to the `mediawiki-docker-dev-sdc` directory, then run a command like the following, changing `tests/phpunit/unit/includes/content/JsonContentHandlerTest.php` to the path of the php test file you want to execute:
 
