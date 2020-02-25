@@ -119,6 +119,16 @@ Doing this will create a `launch.json` file in the `.vscode` folder inside your 
 
 <img width="1117" alt="Screen Shot 2019-07-30 at 2 22 43 PM" src="https://user-images.githubusercontent.com/3143487/62168329-cfe32b00-b314-11e9-9d7f-f62aa45fd063.png">
 
+## Running tests
+
+### Example to run tests in one PHP file
+
+First, `cd` to the `mediawiki-docker-dev-sdc` directory, then run a command like the following, changing `tests/phpunit/unit/includes/content/JsonContentHandlerTest.php` to the path of the php test file you want to execute:
+
+```
+./phpunit-file default tests/phpunit/unit/includes/content/JsonContentHandlerTest.php
+```
+
 ## Misc
 
 If the Docker containers stop unexpectedly, you can run `./create` to restart them. See the parent repo readme's [Commands](https://github.com/addshore/mediawiki-docker-dev#commands) section.
