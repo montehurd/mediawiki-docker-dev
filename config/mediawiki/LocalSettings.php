@@ -73,12 +73,13 @@ $wgUploadDirectory = "{$IP}/images/docker/{$dockerDb}";
 $wgUploadPath = "{$wgScriptPath}/images/docker/{$dockerDb}";
 
 $wgTmpDirectory = "{$wgUploadDirectory}/tmp";
+$wgCacheDirectory = "{$wgUploadDirectory}/cache";
 
 $wgStatsdServer = "graphite-statsd";
 
 ## Dev & Debug
 
-$dockerLogDirectory = "/var/log/mediawiki/";
+$dockerLogDirectory = "/var/log/mediawiki";
 $wgDebugLogFile = "$dockerLogDirectory/debug.log";
 
 ini_set( 'xdebug.var_display_max_depth', -1 );

@@ -6,6 +6,35 @@ Most recent changes are at the top.
 
 ### 2019
 
+#### December 2019
+
+* Add "script" command for running maintenance scripts.
+
+#### November 2019
+
+* XDEBUG_REMOTE_AUTOSTART changes [commit](https://github.com/addshore/mediawiki-docker-dev/commit/135c51e5ceca511bfd0952723221ad3c8d596ceb)
+  * Default values is now 0 (was 1)
+  * XDEBUG_REMOTE_AUTOSTART can now be set from your local.env file
+  * This results in speed ups when not debugging, as PHP doesnt try to connect back to the debugger on every request.
+* Extend nginx proxy timeouts from 60s to 120s, as while debugging some web requests can take a long time. [commit](https://github.com/addshore/mediawiki-docker-dev/commit/a65c50589992934263df51aa65f6bf70d64d3ee4)
+
+#### October 2019
+
+* Default wait-for-it time set to 120 seconds
+* installdbs now run as application user [commit](https://github.com/addshore/mediawiki-docker-dev/commit/ac153fe87c4c3e84eddb2d39558661e6ebe1d8fd)
+* HHVM support removed (it never really worked anyway)
+* Readme updates
+
+
+#### September 2019
+
+* Default config for wgCacheDirectory [commit](https://github.com/addshore/mediawiki-docker-dev/commit/90422f2a80c4bcf6bcf1d97c1d2f17d63961f5b2)
+  * Also create said directory [commit](https://github.com/addshore/mediawiki-docker-dev/commit/f5a5c484ce3c7170c0080b9c6efe02a52e504c98)
+* Default wait-for-it time set to 30 seconds [commit](https://github.com/addshore/mediawiki-docker-dev/commit/149dfe532abfa5b76214e35c6fc0b842fe93ba88)
+* Ensure $HOME/.composer exists [commit](https://github.com/addshore/mediawiki-docker-dev/commit/3d5128657ffab3ab0136b382ac7784610a7dfe48)
+* Readme updates
+
+
 #### March 2019
 
 ###### 13th

@@ -1,4 +1,4 @@
-version: '2'
+version: '2.2'
 
 services:
 
@@ -50,7 +50,7 @@ services:
       - ./config/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   web:
-    image: webdevops/${PHPORHHVM}-${WEBSERVER}${DOCKERPHPDEV}:${RUNTIMEVERSION}
+    image: webdevops/php-${WEBSERVER}-dev:${RUNTIMEVERSION}
     environment:
      - WEB_DOCUMENT_ROOT=/var/www
      # Used by various maintenance scripts to find MediaWiki.
@@ -58,10 +58,11 @@ services:
      - MW_INSTALL_PATH=/var/www/mediawiki
      - VIRTUAL_HOST=*.web.mw.localhost
      - PHP_DEBUGGER=xdebug
-     - XDEBUG_REMOTE_AUTOSTART=1
+     - XDEBUG_REMOTE_AUTOSTART=${XDEBUG_REMOTE_AUTOSTART}
      - XDEBUG_REMOTE_HOST=${IDELOCALHOST}
      - XDEBUG_REMOTE_PORT=9000
      - XDEBUG_REMOTE_CONNECT_BACK=0
+     - XDEBUG_PROFILER_ENABLE_TRIGGER=1
      - PHP_IDE_CONFIG=serverName=docker
      - PHP_UPLOAD_MAX_FILESIZE=1024M
      - PHP_POST_MAX_SIZE=1024M
@@ -74,8 +75,6 @@ services:
     volumes:
      - "${DOCKER_MW_PATH}:/var/www/mediawiki:cached"
      - ./config/mediawiki:/var/www/mediawiki/.docker:ro
-     - ./config/hhvm/php.ini:/etc/hhvm/php.ini:ro
-     - ./config/hhvm/server.ini:/etc/hhvm/server.ini:ro
      - ./scripts/wait-for-it.sh:/srv/wait-for-it.sh:ro
      - mw-images:/var/www/mediawiki/images/docker:delegated
   graphite-statsd:
@@ -94,6 +93,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./config/nginx/client_max_body_size.conf:/etc/nginx/conf.d/client_max_body_size.conf:ro
+      - ./config/nginx/timeouts.conf:/etc/nginx/conf.d/timeouts.conf:ro
 
   redis:
     image: redis
