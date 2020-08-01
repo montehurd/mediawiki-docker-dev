@@ -102,7 +102,7 @@ wfLoadExtension( 'UniversalLanguageSelector' );
 wfLoadExtension( 'MobileFrontend' );
 
 \$wgDisableSearchUpdate = true;
-\$wgCirrusSearchServers = [ "elasticsearch.svc" ];
+\$wgCirrusSearchServers = [ "elasticsearch.mw.localhost" ];
 EOL
 
 
@@ -126,7 +126,7 @@ wfLoadExtension( 'CirrusSearch' );
 wfLoadExtension( 'UniversalLanguageSelector' );
 wfLoadExtension( 'MobileFrontend' );
 
-\$wgCirrusSearchServers = [ "elasticsearch.svc" ];
+\$wgCirrusSearchServers = [ "elasticsearch.mw.localhost" ];
 EOL
 
 
@@ -147,7 +147,7 @@ wfLoadExtension( 'CirrusSearch' );
 wfLoadExtension( 'UniversalLanguageSelector' );
 wfLoadExtension( 'MobileFrontend' );
 
-\$wgCirrusSearchServers = [ "elasticsearch.svc" ];
+\$wgCirrusSearchServers = [ "elasticsearch.mw.localhost" ];
 \$wgSearchType = 'CirrusSearch';
 EOL
 
@@ -186,7 +186,7 @@ wfLoadExtension( 'MobileFrontend' );
 wfLoadExtension( 'WikibaseCirrusSearch' );
 wfLoadExtension( 'WikibaseMediaInfo' );
 
-\$wgCirrusSearchServers = [ "elasticsearch.svc" ];
+\$wgCirrusSearchServers = [ "elasticsearch.mw.localhost" ];
 \$wgSearchType = 'CirrusSearch';
 
 \$wgEnableWikibaseRepo = true;

@@ -2,10 +2,24 @@ version: '2.2'
 
 services:
 
+  dps:
+    image: defreitas/dns-proxy-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    hostname: dps.mw.localhost
+    networks:
+      dps:
+        ipv4_address: 172.0.0.10
+
   db-master:
     image: ${DB}:latest
     environment:
       - MYSQL_ROOT_PASSWORD=toor
+    hostname: db-master.mw.localhost
+    dns:
+      - 172.0.0.10
+    networks:
+      - dps
     volumes:
       - sql-data-master:/var/lib/mysql
       - ./config/mysql/master:/tmp/mwdd
@@ -16,6 +30,11 @@ services:
     image: ${DB}:latest
     environment:
       - MYSQL_ROOT_PASSWORD=toor
+    hostname: db-slave.mw.localhost
+    dns:
+      - 172.0.0.10
+    networks:
+      - dps
     volumes:
       - sql-data-slave:/var/lib/mysql
       - ./config/mysql/slave:/tmp/mwdd
@@ -33,6 +52,8 @@ services:
     depends_on:
      - db-master
      - db-slave
+    networks:
+     - dps
     volumes:
       - ./scripts/mysql_connector.sh:/tmp/mysql_connector.sh
       - ./scripts/wait-for-it.sh:/tmp/wait-for-it.sh
@@ -46,6 +67,11 @@ services:
      - PMA_HOSTS=db-master,db-slave
      - PMA_ARBITRARY=1
      - VIRTUAL_HOST=phpmyadmin.mw.localhost
+    hostname: phpmyadmin.mw.localhost
+    dns:
+      - 172.0.0.10
+    networks:
+      - dps
     volumes:
       - ./config/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
@@ -66,9 +92,17 @@ services:
      - PHP_IDE_CONFIG=serverName=docker
      - PHP_UPLOAD_MAX_FILESIZE=1024M
      - PHP_POST_MAX_SIZE=1024M
-     - MW_ELASTIC_HOST=elasticsearch.svc
+     - MW_ELASTIC_HOST=elasticsearch.mw.localhost
      - MW_ELASTIC_PORT=9200
      - PHP_OPCACHE_MAX_ACCELERATED_FILES=0
+     - php.apc.enable_cli=1
+    hostname: mediawiki.mw.localhost
+    dns:
+      - 172.0.0.10
+    dns_search:
+      - mw.localhost
+    networks:
+      - dps
     depends_on:
      - db-configure
      - elasticsearch
@@ -81,15 +115,30 @@ services:
     image: hopsoft/graphite-statsd
     environment:
      - VIRTUAL_HOST=graphite.mw.localhost
+    hostname: graphite.mw.localhost
+    dns:
+      - 172.0.0.10
+    networks:
+      - dps
     volumes:
      - graphite-data:/opt/graphite/storage
 
   nginx-proxy:
-    image: jwilder/nginx-proxy
+    # TODO: replace with jwilder/nginx-proxy, once updated
+    image: silvanwmde/nginx-proxy:latest
     environment:
-     - VIRTUAL_HOST=proxy.mw.localhost
+      - VIRTUAL_HOST=proxy.mw.localhost
+      - HOSTNAMES=.web.mw.localhost      # wildcard name resolution, thanks to DPS
+      - HTTP_PORT=${DOCKER_MW_PORT}      # internal port
     ports:
-      - "${DOCKER_MW_PORT}:80"
+      - "${DOCKER_MW_PORT}:${DOCKER_MW_PORT}"
+    hostname: proxy.mw.localhost
+    dns:
+      - 172.0.0.10
+    dns_search:
+      - mw.localhost
+    networks:
+      - dps
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./config/nginx/client_max_body_size.conf:/etc/nginx/conf.d/client_max_body_size.conf:ro
@@ -97,22 +146,39 @@ services:
 
   redis:
     image: redis
+    hostname: redis.mw.localhost
+    dns:
+      - 172.0.0.10
+    networks:
+      - dps
 
   elasticsearch:
     image: elasticsearch:5.6
     volumes: # Persist ES data in separate "esdata" volume
       - elasticdata:/usr/share/elasticsearch/data
     environment:
+      # - VIRTUAL_HOST=elasticsearch.mw.localhost
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - discovery.type=single-node
+    hostname: elasticsearch.mw.localhost
+    dns:
+      - 172.0.0.10
+    networks:
+      - dps
     ports:
       - "9300:9300"
       - "9200:9200"
-    networks:
-      default:
-        aliases:
-          - elasticsearch.svc
+    # networks:
+    #   default:
+    #     aliases:
+    #       - elasticsearch.svc
+
+networks:
+  dps:
+    ipam:
+      config:
+        - subnet: 172.0.0.0/24
 
 volumes:
   sql-data-master:
